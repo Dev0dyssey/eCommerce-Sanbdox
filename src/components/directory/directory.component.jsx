@@ -47,8 +47,12 @@ export default class Directory extends Component {
       // OR
       // code.map(i => (code))
       <div className="directory-menu">
-        {this.state.sections.map(({ id, ...otherSetionProps }) => (
-          <MenuItem key={id} {...otherSetionProps} />
+        {/* ES6 allows us to use ..spread operator if we would be passing props with same names */}
+        {/* I.E.: {linkUrl = {linkUrl}, size = {size}} */}
+        {/* key={id} still written separate as the prop has a different name to the value */}
+        {/* Best practice and prevents verbose repetitive coce */}
+        {this.state.sections.map(({ id, ...otherSectionProps }) => (
+          <MenuItem key={id} {...otherSectionProps} />
         ))}
       </div>
     );
