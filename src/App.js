@@ -22,14 +22,14 @@ const App = () => {
   const [currentUser, setUser] = useState(null);
 
   useEffect(() => {
-    const unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    const unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
-        userRef.onSnapshot(snapShot => {
+        userRef.onSnapshot((snapShot) => {
           setUser({
             id: snapShot.id,
-            ...snapShot.data()
+            ...snapShot.data(),
           });
         });
       } else {
@@ -47,7 +47,7 @@ const App = () => {
       {/* IN THE CASE BELOW "/" IS THE FIRST MATCHING ROUTE, SO "/HATS" WILL NOT BE RENDERED */}
       {/* EXACT PARAMETER STILL ALLOWS TO NAVIGATE TO THE SPECIFIC PATH */}
       {/* SWITCH IS A GOOD WAY TO FOLLOW A LOGICAL ROUTING PATTERN */}
-      <Header currentUser={currentUser} />
+      <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/shop" component={ShopPage} />
