@@ -20,7 +20,7 @@ class App extends React.Component {
   // Auth() send the user authenticated object{} back every time
   // Open subscription;  always listening to the Google Firebase for user changes
   // Remains open as long as the Component remains mounted to the DOM
-  // Need to unsubscribe once the component unmounts from the DOM to prevent memory leaks within the Application
+  // Need to unsubscribe once the component unmounts from the DOM to prevent memory leaks occurring within the Application
 
   unsubscribeFromAuth = null;
 
