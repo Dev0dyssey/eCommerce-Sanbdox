@@ -11,7 +11,7 @@ import { ReactComponent as Logo } from "../../assets/crown_logo.svg";
 
 import "./header.styles.scss";
 
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser, hidden }) => (
   <div className="header">
     <Link className="logoContainer" to="/">
       <Logo className="logo" />
@@ -35,13 +35,15 @@ const Header = ({ currentUser }) => (
       )}
       <CartIcon />
     </div>
-    <CartDropdown />
+    {hidden ? null : <CartDropdown />}
   </div>
 );
 
-const mapStateToProps = (state) => ({
+// {value: { value }} a way to destructure nested components
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
   // state(root-reducer) -> user (user within the combineReducer{} in root-reducer) -> currentUser (coming from user.reducer.jsx INITIAL_STATE. Gives us the 'null' initial state value)
-  currentUser: state.user.currentUser,
+  currentUser,
+  hidden,
 });
 
 export default connect(mapStateToProps)(Header);
