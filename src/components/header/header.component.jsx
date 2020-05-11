@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
@@ -12,34 +12,34 @@ import { selectCurrentUser } from "../../redux/user/user.selectors";
 // Specific React syntax to import SVG images
 import { ReactComponent as Logo } from "../../assets/crown_logo.svg";
 
-import "./header.styles.scss";
+// import "./header.styles.scss";
+import {
+  HeaderContainer,
+  LogoContainer,
+  OptionContainer,
+  OptionDiv,
+  OptionLink,
+} from "./header.styles";
 
 const Header = ({ currentUser, hidden }) => (
-  <div className="header">
-    <Link className="logoContainer" to="/">
+  <HeaderContainer>
+    <LogoContainer to="/">
       <Logo className="logo" />
-    </Link>
-    <div className="options">
-      <Link className="option" to="/shop">
-        SHOP
-      </Link>
-      <Link className="option" to="/shop">
-        CONTACT
-      </Link>
+    </LogoContainer>
+    <OptionContainer>
+      <OptionLink to="/shop">SHOP</OptionLink>
+      <OptionLink to="/shop">CONTACT</OptionLink>
       {currentUser ? (
-        <div className="option" onClick={() => auth.signOut()}>
-          {" "}
-          SIGN OUT
-        </div>
+        <OptionDiv onClick={() => auth.signOut()}> SIGN OUT</OptionDiv>
       ) : (
-        <Link className="option" to="/signin">
+        <OptionLink className="option" to="/signin">
           SIGN IN
-        </Link>
+        </OptionLink>
       )}
       <CartIcon />
-    </div>
+    </OptionContainer>
     {hidden ? null : <CartDropdown />}
-  </div>
+  </HeaderContainer>
 );
 
 // {value: { value }} a way to destructure nested components
