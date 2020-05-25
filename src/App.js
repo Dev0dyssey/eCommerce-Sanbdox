@@ -15,6 +15,9 @@ import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
 class App extends React.Component {
   // User authenticated session persistence
   // App remembers the signed in user via Firebase
@@ -27,6 +30,7 @@ class App extends React.Component {
   // Need to unsubscribe once the component unmounts from the DOM to prevent memory leaks occurring within the Application
 
   unsubscribeFromAuth = null;
+  stripePromise = loadStripe("pk_test_mENoDSJKQgvbHR7MITH2RZ2D00XKoARCyZ");
 
   componentDidMount() {
     const { setCurrentUser } = this.props;
@@ -60,20 +64,22 @@ class App extends React.Component {
         {/* SWITCH IS A GOOD WAY TO FOLLOW A LOGICAL ROUTING PATTERN */}
         <Header />
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route
-            exact
-            path="/signin"
-            render={() =>
-              this.props.currentUser ? (
-                <Redirect to="/" />
-              ) : (
-                <SignInAndSignUpPage />
-              )
-            }
-          />
+          <Elements stripe={this.stripePromise}>
+            <Route exact path="/" component={HomePage} />
+            <Route path="/shop" component={ShopPage} />
+            <Route exact path="/checkout" component={CheckoutPage} />
+            <Route
+              exact
+              path="/signin"
+              render={() =>
+                this.props.currentUser ? (
+                  <Redirect to="/" />
+                ) : (
+                  <SignInAndSignUpPage />
+                )
+              }
+            />
+          </Elements>
         </Switch>
       </div>
     );
