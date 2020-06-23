@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-// Example of a custom Rect hook to get data from an API call
+// Example of a custom React hook to get data from an API call
 const useFetch = (url) => {
   const [data, setData] = useState(null);
 
