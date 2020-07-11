@@ -29,7 +29,7 @@ app.listen(port, (error) => {
 });
 
 app.post("/payment", (req, res) => {
-  // Body = the actual request data object{} being sent to the server
+  // Body = the actual request data object{} being sent to the server (similar to pathParams/requestParams from a more complex backend API)
   const body = {
     source: req.body.token.id,
     amount: req.body.amount,
