@@ -29,6 +29,7 @@ app.listen(port, (error) => {
 });
 
 app.post("/payment", (req, res) => {
+  // Body = the actual request data object{} being sent to the server
   const body = {
     source: req.body.token.id,
     amount: req.body.amount,
