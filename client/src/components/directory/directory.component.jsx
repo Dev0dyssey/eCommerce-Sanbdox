@@ -16,7 +16,7 @@ const Directory = ({ sections }) => (
     {/* ES6 allows us to use ..spread operator if we would be passing props with same names */}
     {/* I.E.: {linkUrl = {linkUrl}, size = {size}} */}
     {/* key={id} still written separate as the prop has a different name to the value */}
-    {/* Best practice and prevents verbose repetitive coce */}
+    {/* Best practice and prevents verbose repetitive code */}
     {sections.map(({ id, ...otherSectionProps }) => (
       <MenuItem key={id} {...otherSectionProps} />
     ))}
