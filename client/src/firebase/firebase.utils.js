@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-import "firebase/firestore";
-import "firebase/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import "firebase/compat/auth";
 
 const config = {
   apiKey: "AIzaSyARtzKgxoRwYE7q8MRXRw_sY_Rfrn9hhRg",
@@ -80,20 +80,45 @@ export const convertCollectionsSnapshotToMap = (collections) => {
 
 firebase.initializeApp(config);
 
+let authInstance;
+let googleProviderInstance;
+
+const getAuthInstance = () => {
+  if (!authInstance) {
+    authInstance = firebase.auth();
+  }
+  return authInstance;
+};
+
+const getGoogleProvider = () => {
+  if (!googleProviderInstance) {
+    googleProviderInstance = new firebase.auth.GoogleAuthProvider();
+    googleProviderInstance.setCustomParameters({ prompt: "select_account" });
+  }
+  return googleProviderInstance;
+};
+
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+    const unsubscribe = getAuthInstance().onAuthStateChanged((userAuth) => {
       unsubscribe();
       resolve(userAuth);
     }, reject);
   });
 };
 
-export const auth = firebase.auth();
+export const auth = {
+  onAuthStateChanged: (...args) => getAuthInstance().onAuthStateChanged(...args),
+  signInWithPopup: (...args) => getAuthInstance().signInWithPopup(...args),
+  signInWithEmailAndPassword: (...args) =>
+    getAuthInstance().signInWithEmailAndPassword(...args),
+  signOut: (...args) => getAuthInstance().signOut(...args),
+  createUserWithEmailAndPassword: (...args) =>
+    getAuthInstance().createUserWithEmailAndPassword(...args),
+};
 export const firestore = firebase.firestore();
 
-export const googleProvider = new firebase.auth.GoogleAuthProvider();
-googleProvider.setCustomParameters({ prompt: "select_account" });
-export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
+export const signInWithGoogle = () =>
+  getAuthInstance().signInWithPopup(getGoogleProvider());
 
 export default firebase;
