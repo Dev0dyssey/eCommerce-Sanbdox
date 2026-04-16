@@ -13,7 +13,7 @@ import {
 
 import {
   auth,
-  googleProvider,
+  signInWithGoogle as signInWithGooglePopup,
   createUserProfileDocument,
   getCurrentUser,
 } from "../../firebase/firebase.utils";
@@ -34,10 +34,7 @@ export function* getSnapshotFromUserAuth(userAuth, additionalData) {
 
 export function* signInWithGoogle() {
   try {
-    // Coming from the user prop inside the googleProvider
-    // const userRef = yield auth.signInWithPopup(googleProvider);
-    // console.log(userRef)
-    const { user } = yield auth.signInWithPopup(googleProvider);
+    const { user } = yield call(signInWithGooglePopup);
     yield getSnapshotFromUserAuth(user);
   } catch (error) {
     yield put(signInFailure(error));
